@@ -13,14 +13,13 @@ function loadGraphData(){
             if(xhr.status == 200){
                 response = JSON.parse(response);
                 // console.log(typeof response);
-                var days = response.data.daysOfMonth;
-                monthDay = Object.keys(days).map(function (key) {return days[key]; });
-
+                var enquiries = response.data.totalEnquiries;
+                var replies = response.data.totalReplies;
                 if(response.data){
                     fillTabsData(response.data);
                 }
 
-                inItGraph(monthDay); // intialize graph
+                inItGraph(enquiries,replies); // intialize graph
 
             }else{
                 return false;
@@ -33,8 +32,8 @@ function loadGraphData(){
     
 }
 
-function inItGraph(daysOfMonth){
-    console.log(typeof daysOfMonth);
+function inItGraph(monthData,replies){
+    /** Chart of enquiry and reply */
     Highcharts.chart('enquiryGraph', {
         chart: {
             type: 'column'
@@ -43,7 +42,9 @@ function inItGraph(daysOfMonth){
             text: 'Monthly Enquiry and Response'
         },
         xAxis: {
-            categories: daysOfMonth,
+            categories: Object.keys(monthData).map(function (key) {
+                return key;
+            }),
             crosshair: true
         },
         yAxis: {
@@ -54,8 +55,10 @@ function inItGraph(daysOfMonth){
         },
         tooltip: {
             headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
-            pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-                '<td style="padding:0"><b>{point.y:.1f} mm</b></td></tr>',
+            pointFormat: '<tr>'+
+                            '<td style="color:{series.color};padding:0">{series.name}: </td>' +
+                            '<td style="padding:0"><b>{point.y:.f}</b></td>'+
+                            '</tr>',
             footerFormat: '</table>',
             shared: true,
             useHTML: true
@@ -68,21 +71,22 @@ function inItGraph(daysOfMonth){
         },
         series: [{
             name: 'Enquiries',
-            data: [49, 71, 71, 10, 106, 12, 129, 14, 144, 17, 176, 13, 135, 14, 148, 21, 216, 19, 194, 95, 95, 54, 54,65,85,106, 129, 144, 176, 135, 148, 216, 194]
+            data: Object.keys(monthData).map(function (key) {
+                return monthData[key];
+            })
     
         }, {
             name: 'Replies',
-            data: [83, 78, 98, 93, 106, 84, 105, 104, 91, 83, 106, 92,60,82, 106, 129, 144, 176, 135, 148, 216, 194]
-    
+            data: Object.keys(replies).map(function (key) {
+                return monthData[key];
+            })
         }]
     });
 }
 
-
-
 function fillTabsData(data){
     document.getElementById('totalVisitors').innerText = data.totalVisitors;
     document.getElementById('totalSubscribers').innerText = data.totalSubs;
-    document.getElementById('totalEnquiries').innerText = data.totalEnquiries;
-    document.getElementById('totalReplies').innerText = data.totalReplies;
+    document.getElementById('totalEnquiries').innerText = data.allEnquiries;
+    document.getElementById('totalReplies').innerText = data.allReplies;
 }

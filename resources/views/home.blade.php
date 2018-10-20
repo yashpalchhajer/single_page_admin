@@ -12,7 +12,7 @@
 @endsection
 
 @section('content')
-<div class="col-md-12">
+<div class="col-md-12" style="height:100%">
   <div class="row">
     <div class="panel panel-default">
       <div class="panel panel-body">
