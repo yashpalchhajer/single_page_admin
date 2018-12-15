@@ -17,7 +17,20 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::group(['middleware' => ['auth']], function () {
+    Route::get('/home', 'HomeController@index')->name('home');
+    Route::resource('users','UserController');
+
+    Route::resource('roles','RoleController');
+    Route::resource('news','NewsController');
+    Route::resource('toppers','TopperController');
+    Route::resource('subscribers', 'SubscriberController');
+    Route::resource('enquiries','EnquiryController');    
+});
+
+
+
+/* Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/getGraphData','HomeController@getGraphData');
 
@@ -27,4 +40,4 @@ Route::resource('toppers','TopperController');
 
 Route::resource('subscribers', 'SubscriberController');
 
-Route::resource('enquiries','EnquiryController');
+Route::resource('enquiries','EnquiryController'); */

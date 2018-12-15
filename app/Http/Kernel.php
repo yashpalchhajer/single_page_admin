@@ -3,6 +3,7 @@
 namespace App\Http;
 
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
+use Spatie\Permission\Middlewares\PermissionMiddleware;
 
 class Kernel extends HttpKernel
 {
@@ -60,5 +61,7 @@ class Kernel extends HttpKernel
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'cors' => \Barryvdh\Cors\HandleCors::class,
+        'role'  =>  \Spatie\Permission\Middlewares\RoleMiddleware::class,
+        'permission'    =>  \Spatie\Permission\Middlewares\PermissionMiddleware::class
     ];
 }
