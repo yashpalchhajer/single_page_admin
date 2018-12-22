@@ -12,6 +12,15 @@ use DB;
 
 class UserController extends Controller
 {
+
+/*     function __construct()
+    {
+        $this->middleware('permission:role-list');
+        $this->middleware('permission:role-create', ['only' => ['create','store']]);
+        $this->middleware('permission:role-edit', ['only' => ['edit','update']]);
+        $this->middleware('permission:role-delete', ['only' => ['destroy']]);
+    }
+ */
     /**
      * Display a listing of the resource.
      *
@@ -48,8 +57,8 @@ class UserController extends Controller
         $this->validate($request, [
             'name' => 'required',
             'email' => 'required|email|unique:users,email',
-            'password' => 'required|same:confirm-password'//,
-            // 'roles' => 'required'
+            'password' => 'required|same:confirm-password',
+            'roles' => 'required'
         ]);
 
 
@@ -108,17 +117,17 @@ class UserController extends Controller
         $this->validate($request, [
             'name' => 'required',
             'email' => 'required|email|unique:users,email,'.$id,
-            'password' => 'same:confirm-password',
+            // 'password' => 'same:confirm-password',
             'roles' => 'required'
         ]);
 
 
         $input = $request->all();
-        if(!empty($input['password'])){ 
-            $input['password'] = Hash::make($input['password']);
-        }else{
-            $input = array_except($input,array('password'));    
-        }
+        // if(!empty($input['password'])){ 
+        //     $input['password'] = Hash::make($input['password']);
+        // }else{
+        //     $input = array_except($input,array('password'));    
+        // }
 
 
         $user = User::find($id);

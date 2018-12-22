@@ -29,43 +29,45 @@
 @endif
 
 
-{!! Form::model($user, ['method' => 'PATCH','route' => ['users.update', $user->id]]) !!}
+<form action="{{route('users.update',$user->id)}}" method="POST">
+{{ csrf_field() }}
+{{method_field('patch')}}
+
 <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-12">
         <div class="form-group">
             <strong>Name:</strong>
-            {!! Form::text('name', null, array('placeholder' => 'Name','class' => 'form-control')) !!}
+            <input type="text" name="name" placeholder="Name" class="form-control" value="{{$user->name}}">
         </div>
     </div>
     <div class="col-xs-12 col-sm-12 col-md-12">
         <div class="form-group">
             <strong>Email:</strong>
-            {!! Form::text('email', null, array('placeholder' => 'Email','class' => 'form-control')) !!}
+            <input type="mail" placeholder="Email" class="form-control" name="email"  value="{{$user->email}}">
         </div>
     </div>
     <div class="col-xs-12 col-sm-12 col-md-12">
         <div class="form-group">
             <strong>Password:</strong>
-            {!! Form::password('password', array('placeholder' => 'Password','class' => 'form-control')) !!}
+            <input type="password" name="password" placeholder="Password" class="form-control"  value="{{$user->password}}" readonly>
         </div>
     </div>
-    <div class="col-xs-12 col-sm-12 col-md-12">
-        <div class="form-group">
-            <strong>Confirm Password:</strong>
-            {!! Form::password('confirm-password', array('placeholder' => 'Confirm Password','class' => 'form-control')) !!}
-        </div>
-    </div>
+
     <div class="col-xs-12 col-sm-12 col-md-12">
         <div class="form-group">
             <strong>Role:</strong>
-            {!! Form::select('roles[]', $roles,$userRole, array('class' => 'form-control','multiple')) !!}
+            <select name="roles[]" id="roles" class="form-control" multiple>
+                <option value="">Roles</option>
+                @foreach ($roles as $role)
+                <option value="{{$role}}">{{$role}}</option>
+                @endforeach
+            </select>
         </div>
     </div>
     <div class="col-xs-12 col-sm-12 col-md-12 text-center">
         <button type="submit" class="btn btn-primary">Submit</button>
     </div>
 </div>
-{!! Form::close() !!}
 
 
 @endsection

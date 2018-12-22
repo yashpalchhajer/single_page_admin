@@ -3,6 +3,7 @@
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
+
 class PermissionTableSeeder extends Seeder
 {
     /**
@@ -24,6 +25,8 @@ class PermissionTableSeeder extends Seeder
             'product-create',
             'product-edit',
             'product-delete',
+            'enquiry-list',
+            'enquiry-reply',
         ];
 
         foreach ($permissions as $permission) {
@@ -32,6 +35,7 @@ class PermissionTableSeeder extends Seeder
 
         $role = Role::create(['name' => 'super-admin']);
         $role->givePermissionTo(Permission::all());
+
 
     }
 }

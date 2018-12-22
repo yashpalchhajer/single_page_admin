@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Enquiry;
 use Illuminate\Http\Request;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
 use Mail;
 
 class EnquiryController extends Controller
@@ -11,6 +13,8 @@ class EnquiryController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        $this->middleware('permission:enquiry-list',['only' => ['index']]);
+        // $this->middleware('permission:news-admin', ['only' => ['index','create','store','update']]);
     }
     /**
      * Display a listing of the resource.
