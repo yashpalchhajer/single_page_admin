@@ -14,7 +14,7 @@ class EnquiryController extends Controller
     {
         $this->middleware('auth');
         $this->middleware('permission:enquiry-list',['only' => ['index']]);
-        // $this->middleware('permission:news-admin', ['only' => ['index','create','store','update']]);
+        $this->middleware('permission:news-admin', ['only' => ['index','create','store','update']]);
     }
     /**
      * Display a listing of the resource.
